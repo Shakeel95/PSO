@@ -149,10 +149,10 @@ def qpso_algo_par(f, s, bounds, maxrounds, p=0.9,optimum_dis=0.01):
 
 if __name__ == '__main__':
 
-    s = 1000
+    s = 50
     params = [0.715, 1.7, 1.7]
     maxrounds = 1000
-    sims = 1000
+    sims = 50
 
     funcnamelist = ["X-Squared", "Booth", "Beale", "ThreeHumpCamel", "GoldsteinPrice", "Levi_n13", "Sphere", "Rosebrock", "StyblinskiTang", "Ackley", "Schaffer_n2", "Eggholder", "McCormick", "Rastrigin", "Schaffer_n4", "Eason", "Bukin_n6", "Matyas"]
     functionlist = [tf.xsq, tf.booth, tf.beale, tf.threehumpcamel, tf.goldsteinprice, tf.levi_n13, tf.sphere, tf.rosenbrock, tf.Styblinski_Tang, tf.ackley, tf.schaffer_n2, tf.eggholder, tf.mccormick, tf.rastrigin, tf.schaffer_n4, tf.easom, tf.bukin_n6, tf.matyas]
