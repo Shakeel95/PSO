@@ -36,9 +36,9 @@ def pso_algo(f, s, bounds, params, maxrounds, p=0.9,optimum_dis=0.01):
                     fgbest = fcurr + 0
                     pgbest = pcurr[i] + 0
         t += 1
-        pcurr_best = pcurr[fbest > min(heapq.nlargest(int(fbest.size*p), fbest))]
-        if dist(pcurr_best, pgbest) <= optimum_dis:
-            break
+        # pcurr_best = pcurr[fbest > min(heapq.nlargest(int(fbest.size*p), fbest))]
+        # if dist(pcurr_best, pgbest) <= optimum_dis:
+        #     break
     return pgbest, fgbest, t
 
 
@@ -73,9 +73,9 @@ def qpso_algo(f, s, bounds, maxrounds, p=0.9,optimum_dis=0.01):
                     fgbest = fcurr + 0
                     pgbest = x[i] + 0
         t += 1
-        pcurr_best = pcurr[fbest > min(heapq.nlargest(int(fbest.size*p), fbest))]
-        if dist(pcurr_best, pgbest) <= optimum_dis:
-            break
+        # pcurr_best = pcurr[fbest > min(heapq.nlargest(int(fbest.size*p), fbest))]
+        # if dist(pcurr_best, pgbest) <= optimum_dis:
+        #     break
     return pgbest, fgbest, t
 
 
@@ -106,9 +106,9 @@ def pso_algo_par(f, s, bounds, params, maxrounds, p=0.9,optimum_dis=0.01):
             fgbest = min(fbest) + 0
             pgbest = np.copy(pbest[fbest == fgbest], order="k")[0]
         t += 1
-        pcurr_best = pcurr[fbest > min(heapq.nlargest(int(fbest.size*p), fbest))]
-        if dist(pcurr_best, pgbest) <= optimum_dis:
-            break
+        # pcurr_best = pcurr[fbest > min(heapq.nlargest(int(fbest.size*p), fbest))]
+        # if dist(pcurr_best, pgbest) <= optimum_dis:
+        #     break
     return pgbest, fgbest, t
 
 
@@ -136,10 +136,10 @@ def qpso_algo_par(f, s, bounds, maxrounds, p=0.9,optimum_dis=0.01):
             fgbest = min(fbest) + 0
             pgbest = np.copy(pbest[fbest == fgbest], order="k")[0]
 
-        pcurr_best = pcurr[fbest > min(heapq.nlargest(int(fbest.size*p), fbest))]
+        # pcurr_best = pcurr[fbest > min(heapq.nlargest(int(fbest.size*p), fbest))]
         t += 1
-        if dist(pcurr_best, pgbest) <= optimum_dis:
-            break
+        # if dist(pcurr_best, pgbest) <= optimum_dis:
+        #     break
     return pgbest, fgbest, t
 
 
