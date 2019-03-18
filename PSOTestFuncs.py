@@ -59,7 +59,7 @@ def levi_n13(loc):
 
 def easom(loc):
     loc = np.array(loc)
-    fout = -np.cos(loc[0]) * np.sin(loc[1]) * np.exp(-((loc[0] - np.pi) ** 2 + (loc[1] - np.pi) ** 2))
+    fout = -np.cos(loc[0]) * np.cos(loc[1]) * np.exp(-((loc[0] - np.pi) ** 2 + (loc[1] - np.pi) ** 2))
     return fout
 
 
