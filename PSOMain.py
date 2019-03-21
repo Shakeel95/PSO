@@ -16,11 +16,13 @@ from PSOUpdate import dist
 
 
 
-def pso_algo(f, s, bounds, params, maxrounds, p=0.9,optimum_dis=0.01):
+def pso_algo(f, s, bounds, params, maxrounds, tol, nochange):
     n = len(bounds)
     pcurr, vcurr, pbest, fbest, pgbest, fgbest = pso_init(f, s, bounds)
     t = 0
+    samebest = 0
     while t < maxrounds:
+        fgbest_compare = fgbest
         for i in range(s):
             for d in range(n):
                 vcurr[i][d] = veloc_update(pcurr[i][d], vcurr[i][d], pbest[i][d], pgbest[d], params)
@@ -36,9 +38,14 @@ def pso_algo(f, s, bounds, params, maxrounds, p=0.9,optimum_dis=0.01):
                     fgbest = fcurr + 0
                     pgbest = pcurr[i] + 0
         t += 1
-        # pcurr_best = pcurr[fbest > min(heapq.nlargest(int(fbest.size*p), fbest))]
-        # if dist(pcurr_best, pgbest) <= optimum_dis:
-        #     break
+
+        if abs(fgbest_compare - fgbest) > tol :
+            samebest = 0
+        else :
+            samebest += 1
+
+        if samebest >= nochange :
+            break
     return pgbest, fgbest, t
 
 
@@ -46,12 +53,14 @@ def pso_algo(f, s, bounds, params, maxrounds, p=0.9,optimum_dis=0.01):
 
 
 
-def qpso_algo(f, s, bounds, maxrounds, p=0.9,optimum_dis=0.01):
+def qpso_algo(f, s, bounds, maxrounds, tol, nochange):
     n = len(bounds)
     pcurr, pbest, fbest, pgbest, fgbest = qpso_init(f, s, bounds)
     x = np.copy(pcurr, order="k")
     t = 0
+    samebest = 0
     while t < maxrounds:
+        fgbest_compare = fgbest
         mbest = np.mean(pbest, axis=0)
         beta = 0.5*(maxrounds-t)/maxrounds + 0.5
 
@@ -73,9 +82,14 @@ def qpso_algo(f, s, bounds, maxrounds, p=0.9,optimum_dis=0.01):
                     fgbest = fcurr + 0
                     pgbest = x[i] + 0
         t += 1
-        # pcurr_best = pcurr[fbest > min(heapq.nlargest(int(fbest.size*p), fbest))]
-        # if dist(pcurr_best, pgbest) <= optimum_dis:
-        #     break
+
+        if abs(fgbest_compare - fgbest) > tol:
+            samebest = 0
+        else:
+            samebest += 1
+
+        if samebest >= nochange:
+            break
     return pgbest, fgbest, t
 
 
@@ -86,12 +100,13 @@ def qpso_algo(f, s, bounds, maxrounds, p=0.9,optimum_dis=0.01):
 
 
 
-def pso_algo_par(f, s, bounds, params, maxrounds, p=0.9,optimum_dis=0.01):
+def pso_algo_par(f, s, bounds, params, maxrounds, tol, nochange):
     n = len(bounds)
     pcurr, vcurr, pbest, fbest, pgbest, fgbest = pso_init(f, s, bounds)
     t = 0
+    samebest = 0
     while t < maxrounds:
-
+        fgbest_compare = fgbest
         inputs = zip(pcurr, vcurr, pbest, fbest, repeat(pgbest), repeat(params), repeat(bounds), repeat(f))
 
         results_0 = pool.starmap(point_update, inputs)
@@ -106,19 +121,26 @@ def pso_algo_par(f, s, bounds, params, maxrounds, p=0.9,optimum_dis=0.01):
             fgbest = min(fbest) + 0
             pgbest = np.copy(pbest[fbest == fgbest], order="k")[0]
         t += 1
-        # pcurr_best = pcurr[fbest > min(heapq.nlargest(int(fbest.size*p), fbest))]
-        # if dist(pcurr_best, pgbest) <= optimum_dis:
-        #     break
+
+        if abs(fgbest_compare - fgbest) > tol:
+            samebest = 0
+        else:
+            samebest += 1
+
+        if samebest >= nochange:
+            break
     return pgbest, fgbest, t
 
 
 
 
-def qpso_algo_par(f, s, bounds, maxrounds, p=0.9,optimum_dis=0.01):
+def qpso_algo_par(f, s, bounds, maxrounds, tol, nochange):
     pcurr, pbest, fbest, pgbest, fgbest = qpso_init(f, s, bounds)
     x = np.copy(pcurr, order="k")
     t = 0
+    samebest = 0
     while t < maxrounds:
+        fgbest_compare = fgbest
         mbest = np.mean(pbest, axis=0)
         beta = 0.5*(maxrounds-t)/maxrounds + 0.5
 
@@ -136,10 +158,14 @@ def qpso_algo_par(f, s, bounds, maxrounds, p=0.9,optimum_dis=0.01):
             fgbest = min(fbest) + 0
             pgbest = np.copy(pbest[fbest == fgbest], order="k")[0]
 
-        # pcurr_best = pcurr[fbest > min(heapq.nlargest(int(fbest.size*p), fbest))]
         t += 1
-        # if dist(pcurr_best, pgbest) <= optimum_dis:
-        #     break
+
+        if abs(fgbest_compare - fgbest) > tol:
+            samebest = 0
+        else:
+            samebest += 1
+        if samebest >= nochange:
+            break
     return pgbest, fgbest, t
 
 
@@ -152,6 +178,8 @@ if __name__ == '__main__':
     s = 50
     params = [0.715, 1.7, 1.7]
     maxrounds = 1000
+    tol = 10**(-9)
+    nochange = 20
     sims = 50
 
     funcnamelist = ["X-Squared", "Booth", "Beale", "ThreeHumpCamel", "GoldsteinPrice", "Levi_n13", "Sphere", "Rosebrock", "StyblinskiTang", "Ackley", "Schaffer_n2", "Eggholder", "McCormick", "Rastrigin", "Schaffer_n4", "Easom", "Bukin_n6", "Matyas"]
@@ -172,22 +200,22 @@ if __name__ == '__main__':
             trueval = f(pminlist[j])
 
             start = time.time()
-            pmin, fmin, nrounds = pso_algo(f, s, bounds, params, maxrounds)
+            pmin, fmin, nrounds = pso_algo(f, s, bounds, params, maxrounds, tol, nochange)
             end = time.time()
             outdata = outdata.append([[k, funcnamelist[j], "PSO", end-start, nrounds, pmin, pminlist[j], fmin, trueval]])
 
             start = time.time()
-            pmin, fmin, nrounds = pso_algo_par(f, s, bounds, params, maxrounds)
+            pmin, fmin, nrounds = pso_algo_par(f, s, bounds, params, maxrounds, tol, nochange)
             end = time.time()
             outdata = outdata.append([[k, funcnamelist[j], "PSO_Par", end-start, nrounds, pmin, pminlist[j], fmin, trueval]])
 
             start = time.time()
-            pmin, fmin, nrounds = qpso_algo(f, s, bounds, maxrounds)
+            pmin, fmin, nrounds = qpso_algo(f, s, bounds, maxrounds, tol, nochange)
             end = time.time()
             outdata = outdata.append([[k, funcnamelist[j], "QPSO", end-start, nrounds, pmin, pminlist[j], fmin, trueval]])
 
             start = time.time()
-            pmin, fmin, nrounds = qpso_algo_par(f, s, bounds, maxrounds)
+            pmin, fmin, nrounds = qpso_algo_par(f, s, bounds, maxrounds, tol, nochange)
             end = time.time()
             outdata = outdata.append([[k, funcnamelist[j], "QPSO_Par", end-start, nrounds, pmin, pminlist[j], fmin, trueval]])
 
@@ -196,6 +224,3 @@ if __name__ == '__main__':
     outdata.sort_values(["Function", "Method"], inplace = True)
     outdata = outdata.reset_index(drop = True)
     outdata.to_csv("OutputData.csv")
-
-
-

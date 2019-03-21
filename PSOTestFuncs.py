@@ -25,7 +25,7 @@ def beale(loc):
 
 def matyas(loc):
     loc = np.array(loc)
-    fout = 0.26 * (loc[0] ** 2 + loc[0] ** 2) - 0.48 * loc[0] * loc[1]
+    fout = 0.26 * (loc[0] ** 2 + loc[1] ** 2) - 0.48 * loc[0] * loc[1]
     return fout
 
 
@@ -93,25 +93,6 @@ def schaffer_n4(loc):
     loc = np.array(loc)
     fout = 0.5 + (((np.cos(np.sin(abs(loc[0] ** 2 - loc[1] ** 2)))) ** 2 - 0.5) / (
                 (1 + 0.001 * (loc[0] ** 2 + loc[1] ** 2)) ** 2))
-    return fout
-
-
-# Multiple minimums - should we still use it?
-def himmelblau(loc):
-    loc = np.array(loc)
-    fout = (loc[0] ** 2 + loc[1] - 11) ** 2 + (loc[0] + loc[1] ** 2 - 7) ** 2
-    return fout
-
-
-def crossintray(loc):
-    loc = np.array(loc)
-    fout = 0
-    return fout
-
-
-def holdertable(loc):
-    loc = np.array(loc)
-    fout = 0
     return fout
 
 
