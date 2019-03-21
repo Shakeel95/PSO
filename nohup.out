@@ -126,3 +126,23 @@ Traceback (most recent call last):
   File "/home/ubuntu/anaconda3/lib/python3.6/multiprocessing/connection.py", line 368, in _send
     n = write(self._handle, buf)
 BrokenPipeError: [Errno 32] Broken pipe
+Traceback (most recent call last):
+  File "PSOMain.py", line 1, in <module>
+    import numpy as np
+ImportError: No module named numpy
+Traceback (most recent call last):
+  File "PSOMain.py", line 1, in <module>
+    import numpy as np
+ImportError: No module named numpy
+Traceback (most recent call last):
+  File "PSOMain.py", line 208, in <module>
+    pmin, fmin, nrounds = pso_algo_par(f, s, bounds, params, maxrounds, tol, nochange)
+  File "PSOMain.py", line 112, in pso_algo_par
+    results_0 = pool.starmap(point_update, inputs)
+AttributeError: 'Pool' object has no attribute 'starmap'
+Traceback (most recent call last):
+  File "PSOMain.py", line 206, in <module>
+    pmin, fmin, nrounds = pso_algo_par(f, s, bounds, params, maxrounds, tol, nochange)
+  File "PSOMain.py", line 110, in pso_algo_par
+    results_0 = pool.starmap(point_update, inputs)
+AttributeError: 'Pool' object has no attribute 'starmap'
