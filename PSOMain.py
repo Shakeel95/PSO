@@ -1,7 +1,6 @@
 import numpy as np
 import multiprocessing as mp
 from itertools import repeat
-import heapq
 import time
 import pandas as pd
 
@@ -11,7 +10,6 @@ from PSOInit import qpso_init
 from PSOUpdate import veloc_update
 from PSOUpdate import point_update
 from PSOUpdate import qpoint_update
-from PSOUpdate import dist
 
 
 
