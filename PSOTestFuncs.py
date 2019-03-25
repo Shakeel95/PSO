@@ -1,7 +1,36 @@
 import numpy as np
 
 
-# 1 var
+
+
+
+
+############################ Contents ############################
+
+# This contains all the test functions that are imported by PSOMain.py
+# There are:
+	# 1-Variable Functions: 1
+	# 2-Variable Functions:	13
+	# N-Variable Functions: 4
+
+
+
+
+
+
+
+############################ Variable descriptions ############################
+
+# loc is a list of the variable coordinates (aka location)
+
+
+
+
+
+
+
+
+############################ 1-variable functions ############################
 def xsq(loc):
     loc = np.array(loc)
     fout = loc[0] ** 2
@@ -9,7 +38,11 @@ def xsq(loc):
 
 
 
-# 2 vars
+
+
+
+
+############################ 2-variable functions ############################
 def booth(loc):
     loc = np.array(loc)
     fout = (loc[0] + 2 * loc[1] - 7) ** 2 + (2 * loc[0] + loc[1] - 5) ** 2
@@ -96,7 +129,16 @@ def schaffer_n4(loc):
     return fout
 
 
-# Multi-variate
+
+
+
+
+
+
+
+
+############################ N-variable functions ############################
+
 def sphere(loc):
     loc = np.array(loc)
     fout = sum(loc ** 2)
